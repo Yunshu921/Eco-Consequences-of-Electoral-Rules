@@ -1,0 +1,13 @@
+---
+title: "Revisiting the Effort Heuristic: Varied Outcomes in Replicating Experiments 1 and 2 from Kruger et al. (2004)"
+subtitle: "Reproduction of '"The Effort Heuristic" Revisited: Mixed Results for Replications of Kruger et al. (2004)’s Experiments 1 and 2' (Ziano, I., Yeung, S. K., Lee, C. S., Shi, J., & Feldman, G. ,2023)."
+author: Yunshu Zhang
+thanks: "Code and data are available at: https://github.com. A replication of various aspects in this paper are available at: 通过SSRP产出的DOI"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+abstract: ""
+output:
+  bookdown::pdf_document2
+toc: TRUE
+bibliography: references.bib
+---
+

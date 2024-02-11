@@ -1,13 +1,62 @@
 ---
 title: "Revisiting the Effort Heuristic: Varied Outcomes in Replicating Experiments 1 and 2 from Kruger et al. (2004)"
-subtitle: "Reproduction of '"The Effort Heuristic" Revisited: Mixed Results for Replications of Kruger et al. (2004)’s Experiments 1 and 2' (Ziano, I., Yeung, S. K., Lee, C. S., Shi, J., & Feldman, G. ,2023)."
+subtitle: "Reproduction of 'The Effort Heuristic Revisited: Mixed Results for Replications of Kruger et al. (2004)’s Experiments 1 and 2' (Ziano, I., Yeung, S. K., Lee, C. S., Shi, J., & Feldman, G. ,2023)."
 author: Yunshu Zhang
-thanks: "Code and data are available at: https://github.com. A replication of various aspects in this paper are available at: 通过SSRP产出的DOI"
-date: "`r format(Sys.time(), '%d %B %Y')`"
-abstract: ""
-output:
-  bookdown::pdf_document2
+thanks: "Code and data are available at: https://github.com/Yunshu921/The-Effort-Heuristic-Analysis.git. A replication of various aspects in this paper are available at: 通过SSRP产出的DOI"
+date: today
+date-format: long
+abstract: "The relationship between effort and evaluation has long been of interest to researchers. Kruger, Wirtz, van Boven, and Altermatt (2004) defined the effort heuristic as the inclination to perceive an object's quality and monetary worth as greater when its production is perceived to require more effort. Ziano, I., Yeung, S. K., Lee, C. S., Shi, J., and Feldman, G. (2023) made two replications with mixed results of Kruger et al. (2004) Experiments 1 and 2. For their first replication, they used an Amazon Mechanical Turk (MTurk) sample, and they found a positive correlation between effort and quality for Experiment 2 (in their study 1b) but failed for Experiment 1 (in their study 1a). For their second replication, they used the Prolific sample (their Study 2), and they found support for the effort heuristic on liking and quality ratings but not for monetary value. We replicate the results of studies 1b and 2 with respect to monetary value, liking, and quality. The results were consistent with the initial study."
+format: pdf
+number-sections: true
 toc: TRUE
 bibliography: references.bib
 ---
 
+# Introduction
+
+<!-- Background / Broader Context -->
+
+We use R (@citeR) to do replication and load some packages : From the declared article (@2023)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# References

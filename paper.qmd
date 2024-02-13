@@ -2,7 +2,7 @@
 title: "Revisiting the the Economic Consequences of Electoral Rules in Brazil"
 subtitle: "Reproduction of 'When Do Politicians Appeal Broadly? The Economic Consequences of Electoral Rules in Brazil'(Chin, Moya. 2023)."
 author: Yunshu Zhang
-thanks: "Code and data are available at: https://github.com/Yunshu921/The-Effort-Heuristic-Analysis.git. A replication of various aspects in this paper are available at: 通过SSRP产出的DOI"
+thanks: "Code and data are available at: https://github.com/Yunshu921/Eco-Consequences-of-Electoral-Rules.git. A replication of various aspects in this paper are available at: 通过SSRP产出的DOI"
 date: today
 date-format: long
 abstract: "Election rules serve a crucial role in affecting political outcomes by controlling the way votes are converted into legislative seats, which in turn determines a nation's representation, party system, and organizational framework. In the end, they control the course of policy and the stability of democratic institutions by directly impacting the dynamics of political rivalry, voter involvement, and the broadening of the political process. We replicate some steps of comparing two-round election and one-round election. The results were consistent with the initial study."
@@ -24,6 +24,7 @@ library(ggthemes)
 library(patchwork)
 
 # Read in data
+elections <- readRDS('inputs/data/elections.rds') 
 
 ```
 # Introduction
@@ -72,5 +73,79 @@ We use R (@citeR) to do replication and load some packages : From the declared a
 
 
 
+
+
+
+
+
+
+
+
+# Data
+
+## Data Source and Methodology
+
+
+
+
+
+
+
+## Attributes
+
+
+
+
+
+
+
+# Results
+
+## Conclusion
+
+
+
+
+
+
+
+
+
+
+
+# Discussion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Conclusion
+
+
+
+
+
+
+
+
+## Weaknesses and next steps
+
+
+
+
+\newpage
 
 # References

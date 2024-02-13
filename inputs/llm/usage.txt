@@ -1,4 +1,6 @@
-Date: 
+LLM: ChatGPT-4
+Date: 15 February 2024
+
 
 what can Electoral rules determine
 ChatGPT

@@ -5,9 +5,6 @@
 # Contact: yunshu.zhang@mail.utoronto.ca
 
 #### Workspace setup ####
-# Load libraries
-library(tidyverse)
-
 # Load the RDS file into R
 elections <- readRDS('inputs/data/elections.rds')
 
@@ -21,13 +18,13 @@ source("replication/helper_functions/regression_specifications.R")
 #### ** Figure B2 ####
 #### other cutoffs
 
-# Panel A: Probability of being above/below 300,000 resident cutoff
+# Panel A: Probability of being above/below 350,000 resident cutoff
 figureb2a <- plotRD(elections[elect_year >= 2000], 
                     "tworound_pop300k", "Above 300k resident \nthreshold", "tse_code", spec = spec_no_controls_yr,
                     file = "replication/plots/figureb2a.png", w = fw, h = fh)
 
 # Panel B: Probability of being above/below 285,714 resident cutoff
-figureb2b <- plotRD(elections[elect_year >= 2004], 
+figureb2b <- plotRD(elections[elect_year >= 2003], 
                     "tworound_pop285k", "Above 285k resident \nthreshold", "tse_code", spec = spec_no_controls_yr,
                     file = "replication/plots/figureb2b.png", w = fw, h = fh)
 

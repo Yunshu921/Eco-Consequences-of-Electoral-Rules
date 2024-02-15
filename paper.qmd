@@ -2,10 +2,10 @@
 title: "Revisiting the the Economic Consequences of Electoral Rules in Brazil"
 subtitle: "Reproduction of 'When Do Politicians Appeal Broadly? The Economic Consequences of Electoral Rules in Brazil'(Chin, Moya. 2023)."
 author: Yunshu Zhang
-thanks: "Code and data are available at: https://github.com/Yunshu921/Eco-Consequences-of-Electoral-Rules.git. A replication of various aspects in this paper are available at: 通过SSRP产出的DOI"
+thanks: "Code and data are available at: https://github.com/Yunshu921/Eco-Consequences-of-Electoral-Rules.git. A replication of various aspects in this paper are available at: https://www.socialsciencereproduction.org/reproductions/f44130c1-f9ae-4992-acad-59541a8582a6/index"
 date: today
 date-format: long
-abstract: "Election rules serve a crucial role in affecting political outcomes by controlling the way votes are converted into legislative seats, which in turn determines a nation's representation, party system, and organizational framework. In the end, they control the course of policy and the stability of democratic institutions by directly impacting the dynamics of political rivalry, voter involvement, and the broadening of the political process. We replicate some steps of comparing two-round election and one-round election. The results were consistent with the initial study."
+abstract: "Election rules serve a crucial role in affecting political outcomes by controlling the way votes are converted into legislative seats, which in turn determines a nation's representation, party system, and organizational framework. By using regression discontinuity design, Chin estimated the causal effects of election rules yields three main empirical results such as the two election rounds encouraged more inclusivity given the broader regional support for the candidates in those rounds. We replicate some steps of comparing two-round election and one-round election. The results were consistent with the initial study."
 format: pdf
 number-sections: true
 toc: TRUE
@@ -17,12 +17,10 @@ knitr::opts_chunk$set(fig.pos = "h", out.extra = "")
 
 # Load libraries
 library(tidyverse)
-library(haven)
+library(ggplot2)
 library(kableExtra)
-library(ggprism)
-library(ggthemes)
-library(patchwork)
-
+library(dplyr)
+library(gridExtra)
 # Read in data
 elections <- readRDS('inputs/data/elections.rds') 
 
@@ -31,52 +29,20 @@ elections <- readRDS('inputs/data/elections.rds')
 
 <!-- Background / Broader Context -->
 
-We use R (@citeR) to do replication and load some packages : From the declared article (@2023)
+Election law is significant because it establishes the requirements that candidates must follow in order to be included on the ballot (such as the format and submission of nominating petitions) and the guidelines that apply to write-in candidates. [@ele_law] The electoral system determines who is ultimately elected, and the districts they represent will later determine the inclusiveness of government institutions, which is very important. 
+Since according to Acemoglu and Robinson’ research, a more inclusive government is good for society in the long run. [@ab_2008] On the another hand, factors such as strategic voting cause an Ortega effect, which could result in the Condorcet loser winning the race on a regular basis. [@Bouton_2013] However, there is little causal evidence about the political impact of electoral laws and how they translate into economic policy, despite the abundance of theoretical research. [@Chin] Therefore, we want to figure out how the one of specific rules influence various aspects of election. 
+
+The original article aims to determine how a single variation in election rules—specifically, whether there are two rounds or just one for electing—affects the degree to which politicians are able to appeal to a wider range of voters. It also aims to determine how this impacts the quality of public goods offered and how they are distributed among the electorate. [@Chin] @Chin basing their analysis focus on the times of election round. So far, we do know in democratic presidential elections, single- and two-round elections are the most commonly utilised regulations. [@bg_2015] Chin contrasted the single round election and second round election using regression discontinuity design to examines influence of electoral rules on political inclusivity and public goods distribution in Brazil; 
+And then he found that two-round elections incentivize broader voter support and more equitable public goods provision, particularly in public education, leading to improved literacy rates and lower dropout rates without significantly altering broader economic conditions. The result of study was essential to highlight the strategic adjustments candidates make in two-round elections to appeal to a wider electorate, although it notes limitations in the direct attribution of socioeconomic improvements to electoral rules alone. [@Chin]
+We replicate the paper by [@Chin] with a focus on the following research questions:
+
+* How does the identification of regression discontinuity design (RDD) change when we set up another threshold?
+* What’s the probability of being above a different threshold (285,714 inhabitants) based on registered voters?
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+While the original paper and we both used R [@citeR] for data processing and analysis for all data wrangling and analysis. We use R packages tidyverse [@tidy], ‘ggplot2’ [@plot] for plotting, ‘gridExtra’ [@gridE] for arranging ggplot objects, ‘rdrobust’ [@rd] for regression discontinuity analysis, 'dplyr' [@dp] do data attributes, 'kableExtra' [@kable] to make data table and readRDS abd summary functions in ‘base’ [@readRDS] to read the data files.
 
 
 
@@ -85,14 +51,38 @@ We use R (@citeR) to do replication and load some packages : From the declared a
 
 ## Data Source and Methodology
 
-
-
+The main data set with the electoral results and municipality characteristics so election.rds is obtained from TSE’s electoral data respository (Tribunal Superior Eleitoral, from years 1996 to 2016) and IBGE’s Demographic Censuses (Instituto Brasileiro de Geografia e Estatística, from years 1980, 1991, 2000, and 2010). [@citeTSE, @citeIBGE]
+Each observation is identified by tse_code and elect_year.
+We simply used the data that was supplied in the replication package by @Chin.
 
 
 
 
 ## Attributes
 
+The election data contains variablies the year of the election, the number of eligible voters, the absolute value of distance from 200k voters, and the population density in municipality, from the most recent census prior to the election. We show a glimpse of the data with variables for variables in table \@ref(tab:electiondata).
+
+Note:
+Before the replication of figures, we need to run the helper functions and regression specifications. Because @Chin set up RDD which defined at helper functions.
+
+```{r electiondata, echo=FALSE}
+# Load the RDS file into R
+elections <- readRDS('inputs/data/elections.rds')
+
+
+ele_data <- elections |> 
+  select(elect_year, elig_voters, cut_dist_abs, pop_den_pre) |>
+   filter(elect_year >= 1996, elect_year <= 1997) |>
+   slice(1:10) |>
+  kable(
+    caption = "Ten rows of the election rate data for years 1996-1997",
+    col.names = c("elect_year", "elig_voters", "cut_dist_abs", "pop_den_pre"),
+    digits = 1,
+    booktabs = TRUE, 
+    linesep = ""
+  )
+
+```
 
 
 
@@ -103,7 +93,77 @@ We use R (@citeR) to do replication and load some packages : From the declared a
 
 ## Conclusion
 
+figure \@ref(fig:figB1) is a replication of Figure B1 in the appendix original paper, and it completes identification part. The original threhold is 200,000. We replicate this figure and it shows: the density of elections around the 250,000 registered voter threshold. We can see that there is no visual discontinuity, and the estimate we replicate from @Chin is not robust.
 
+Note: Figure plots elections with 45,000−500,000 registered voters in 3,500 voter bins. Size of the discontinuity is estimated based on @McCrary (2008). Due to the skewed right tail of municipality sizes, the size of the discontinuity was estimated using a sample excluding those above the 99.9 percentile of registered voters. 
+```{r figB1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Identification"}
+# Figure B1 replication
+
+# Load the helper functions and regression specifications
+source("replication/helper_functions/brazil_tworound_functions.R")
+source("replication/helper_functions/regression_specifications.R")
+
+
+#### density of elections
+
+# For the McCrary test, exclude cities above 99.9 percentile of voters
+mccrary = DCdensity(
+   elections[elig_voters <= quantile(elections$elig_voters, 0.999), elig_voters], 
+   cutpoint = 250000, ext.out = TRUE)
+
+# Plot only includes elections between 45k-500k voters
+plotdt <- elections[elig_voters >= 45000 & elig_voters <= 500000]
+
+figureb1 <- ggplot(data = plotdt, aes(x = elig_voters)) +
+   theme_bw(base_size = 8) +
+   xlab("Number of registered voters") +
+   ylab("# of elections \n(or municipality-election years)") +
+   scale_x_continuous(labels = scales::comma) +
+   geom_histogram(
+      binwidth = 3500, boundary = 0, closed = "left",
+      color = "slategray", fill = lightmaroon) +
+   geom_vline(aes(xintercept = 250000), linetype = 2) +
+   annotate("text", 
+            label = paste0("Size: ", format2(mccrary$theta), " (p-value = ", format2(mccrary$p), ")"), 
+            x = 320000, y = 50, size = 2.5)
+figureb1
+ggsave(figureb1, file = "replication/plots/figureb1.png", width = fw, height = fh, units = "in")
+
+
+```
+
+
+Figure \@ref(fig:figB2) is a replication of plots A, and B of Figure B2 in the appendix of the original paper, and shows regression discontinuity plots of the probability of falling above/below other policy thresholds 
+At 350,000 residents, a salary cap for municipal legislators comes into effect. 
+At 285,714 residents, the size of the legislature changes. In each panel, each point plots an average value within a 7,500 voter bin. Diameter of the points is proportional to the number of observations. Confidence intervals (dashed lines) represent the 95% confidence intervals of a local linear regression (solid red line) with standard errors clustered at the municipality level.
+```{r figB2, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Identification"}
+# Figure B2 replication
+
+# Load the helper functions and regression specifications
+source("replication/helper_functions/brazil_tworound_functions.R")
+source("replication/helper_functions/regression_specifications.R")
+
+# Make plot
+#### ** Figure B2 ####
+#### other cutoffs
+
+# Panel A: Probability of being above/below 350,000 resident cutoff
+figureb2a <- plotRD(elections[elect_year >= 2000], 
+                    "tworound_pop300k", "Above 300k resident \nthreshold", "tse_code", spec = spec_no_controls_yr,
+                    file = "replication/plots/figureb2a.png", w = fw, h = fh)
+
+# Panel B: Probability of being above/below 285,714 resident cutoff
+figureb2b <- plotRD(elections[elect_year >= 2003], 
+                    "tworound_pop285k", "Above 285k resident \nthreshold", "tse_code", spec = spec_no_controls_yr,
+                    file = "replication/plots/figureb2b.png", w = fw, h = fh)
+
+figureb2 <- grid.arrange(
+   figureb2a + labs(caption = "(a) Threshold: 300,000 inhabitants"),
+   figureb2b + labs(caption = "(b) Threshold: 285,714 inhabitants"),
+   ncol = 2)
+ggsave(figureb2, file = "replication/plots/figureb2.png", width = 10, height = 2, units = "in")
+
+```
 
 
 
@@ -115,8 +175,7 @@ We use R (@citeR) to do replication and load some packages : From the declared a
 
 # Discussion
 
-
-
+In figure 1 we find
 
 
 
@@ -134,7 +193,7 @@ We use R (@citeR) to do replication and load some packages : From the declared a
 
 # Conclusion
 
-
+We find the same result as the original paper @Chin.
 
 
 
@@ -143,7 +202,7 @@ We use R (@citeR) to do replication and load some packages : From the declared a
 
 ## Weaknesses and next steps
 
-
+We need to do more R code to make high quility replication
 
 
 \newpage

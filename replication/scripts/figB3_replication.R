@@ -5,9 +5,6 @@
 # Contact: yunshu.zhang@mail.utoronto.ca
 
 #### Workspace setup ####
-# Load libraries
-library(tidyverse)
-
 # Load the RDS file into R
 elections <- readRDS('inputs/data/elections.rds')
 
